@@ -10,9 +10,15 @@ namespace RPG.Combat
     {
         Transform target;
         [SerializeField] float weaponRange = 2f;
+        [SerializeField] float timeBetweenAttacks = 1f;
+        float timeSinceLastAttack = 0;
+        [SerializeField] float baseDamage = 5f;
 
         private void Update()
         {
+            timeSinceLastAttack += Time.deltaTime;
+
+
             if (target != null)
             {
                 GetComponent<Mover>().MoveTo(target.position);
@@ -31,8 +37,14 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
-            GetComponent<Animator>().SetTrigger("attack");
+            if (timeSinceLastAttack >= timeBetweenAttacks)
+            {
+                // This will trigger Hit animation event
+                GetComponent<Animator>().SetTrigger("attack");
+                timeSinceLastAttack = 0;
+            }
         }
+
 
         public void Attack(CombatTarget combatTarget)
         {
@@ -55,6 +67,7 @@ namespace RPG.Combat
         void Hit()
         {
             print("Get that you smooth monster!");
+            target.GetComponent<Health>().TakeDamage(baseDamage);
         }
     }
 }
