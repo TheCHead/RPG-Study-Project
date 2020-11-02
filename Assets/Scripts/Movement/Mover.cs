@@ -1,4 +1,4 @@
-﻿using RPG.Combat;
+﻿using RPG.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
         [SerializeField] Transform target;
         Ray lastRay;
@@ -24,7 +24,7 @@ namespace RPG.Movement
 
         public void StartMoveAction(Vector3 destination)
         {
-            GetComponent<Fighter>().DropTarget();
+            GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination);
         }
 
@@ -47,6 +47,10 @@ namespace RPG.Movement
             GetComponent<Animator>().SetFloat("forwardSpeed", localVelocity.z);
         }
 
+        public void Cancel()
+        {
+            print("Cancel movement");
+        }
     }
 }
 
