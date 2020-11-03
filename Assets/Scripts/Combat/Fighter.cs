@@ -44,12 +44,15 @@ namespace RPG.Combat
             }
         }
 
+        
+
         private void AttackBehaviour()
         {
             transform.LookAt(target);
             if (timeSinceLastAttack >= timeBetweenAttacks)
             {
                 // This will trigger Hit animation event
+                GetComponent<Animator>().ResetTrigger("stopAttack");
                 GetComponent<Animator>().SetTrigger("attack");
                 timeSinceLastAttack = 0;
             }
@@ -69,6 +72,7 @@ namespace RPG.Combat
 
         public void Cancel()
         {
+            GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttack");
             DropTarget();
             print("Cancel fighting");
@@ -77,6 +81,9 @@ namespace RPG.Combat
         // Animation Event
         void Hit()
         {
+            if (target == null) { return; }
+
+
             print("Get that you smooth monster!");
             target.GetComponent<Health>().TakeDamage(baseDamage);
         }

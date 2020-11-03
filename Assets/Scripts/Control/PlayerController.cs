@@ -23,6 +23,19 @@ namespace RPG.Control
             print("nothing to do");
         }
 
+        private bool CanAttack(CombatTarget target)
+        {
+            if (target != null && !target.GetComponent<Health>().IsDead())
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
         private bool InteractWithCombat()
         {
                 RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
@@ -30,7 +43,7 @@ namespace RPG.Control
                 foreach (RaycastHit hit in hits)
                 {
                     CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                    if (target != null)
+                    if (CanAttack(target))
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
