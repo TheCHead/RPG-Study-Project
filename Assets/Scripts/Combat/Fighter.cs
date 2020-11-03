@@ -21,13 +21,22 @@ namespace RPG.Combat
 
             if (target != null)
             {
-                GetComponent<Mover>().MoveTo(target.position);
-                if (Vector3.Distance(transform.position, target.position) <= weaponRange)
+                if (target.GetComponent<Health>().IsDead())
                 {
-                    GetComponent<Mover>().StopMoving();
-                    // Attack target
-                    AttackBehaviour();
+                    DropTarget();
                 }
+
+                else
+                {
+                    GetComponent<Mover>().MoveTo(target.position);
+                    if (Vector3.Distance(transform.position, target.position) <= weaponRange)
+                    {
+                        GetComponent<Mover>().StopMoving();
+                        // Attack target
+                        AttackBehaviour();
+                    }
+                }
+                
             }
             else
             {
@@ -37,6 +46,7 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
+            transform.LookAt(target);
             if (timeSinceLastAttack >= timeBetweenAttacks)
             {
                 // This will trigger Hit animation event
@@ -59,6 +69,7 @@ namespace RPG.Combat
 
         public void Cancel()
         {
+            GetComponent<Animator>().SetTrigger("stopAttack");
             DropTarget();
             print("Cancel fighting");
         }
