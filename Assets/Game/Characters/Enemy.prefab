@@ -110,6 +110,10 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: weaponRange
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb93603b689ef34886bce235a66539c, type: 3}
 --- !u!1 &1989775062331060192 stripped
