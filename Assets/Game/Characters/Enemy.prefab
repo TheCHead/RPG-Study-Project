@@ -26,6 +26,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb9c8703b8cf514ebe62de49724b60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1065554649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989775062331060192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98fbedcac461dc34fabf973ab0c305e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseDistance: 5
 --- !u!1001 &7943874735590930935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -10.29
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
@@ -51,7 +64,7 @@ PrefabInstance:
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -17.07
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
@@ -92,6 +105,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1884619999, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: m_Speed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb93603b689ef34886bce235a66539c, type: 3}

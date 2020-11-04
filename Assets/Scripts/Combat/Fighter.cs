@@ -11,7 +11,7 @@ namespace RPG.Combat
         Transform target;
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
-        float timeSinceLastAttack = 0;
+        float timeSinceLastAttack = Mathf.Infinity;
         [SerializeField] float baseDamage = 5f;
 
         private void Update()
@@ -44,7 +44,20 @@ namespace RPG.Combat
             }
         }
 
-        
+        public bool CanAttack(GameObject target)
+        {
+            if (target != null && !target.GetComponent<Health>().IsDead())
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
+
 
         private void AttackBehaviour()
         {
@@ -59,7 +72,7 @@ namespace RPG.Combat
         }
 
 
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;

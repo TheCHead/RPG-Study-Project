@@ -4,37 +4,31 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
 using System;
+using RPG.Core;
 
 namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        Health health;
+
         // Start is called before the first frame update
         void Start()
         {
-
+            health = GetComponent<Health>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (health.IsDead()) { return; }
+
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
             print("nothing to do");
         }
 
-        private bool CanAttack(CombatTarget target)
-        {
-            if (target != null && !target.GetComponent<Health>().IsDead())
-            {
-                return true;
-            }
 
-            else
-            {
-                return false;
-            }
-        }
 
         private bool InteractWithCombat()
         {
@@ -43,11 +37,15 @@ namespace RPG.Control
                 foreach (RaycastHit hit in hits)
                 {
                     CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                    if (CanAttack(target))
+                    if (target == null) { continue; }
+
+                    GameObject targetGameObject = target.gameObject;
+
+                    if (GetComponent<Fighter>().CanAttack(targetGameObject))
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            GetComponent<Fighter>().Attack(target);
+                            GetComponent<Fighter>().Attack(targetGameObject);
                         }
                     return true;
                     }
