@@ -15,6 +15,9 @@ namespace RPG.Control
 
         Vector3 guardPosition;
 
+        [SerializeField] float suspicionTime = 5f;
+        float timeSinceLastSawPlayer = Mathf.Infinity;
+
         private void Start()
         {
             player = GameObject.FindWithTag("Player");
@@ -29,14 +32,30 @@ namespace RPG.Control
             if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance)
             {
                 InteractWithCombat();
+                timeSinceLastSawPlayer = 0f;
+            }
+
+            else if (timeSinceLastSawPlayer < suspicionTime)
+            {
+                SuspicionBehaviour();
             }
 
             else
             {
-                GetComponent<Fighter>().Cancel();
-                GetComponent<Mover>().StartMoveAction(guardPosition);
+                GuardBehaviour();
             }
 
+        }
+
+        private void GuardBehaviour()
+        {
+            GetComponent<Mover>().StartMoveAction(guardPosition);
+        }
+
+        private void SuspicionBehaviour()
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+            timeSinceLastSawPlayer = timeSinceLastSawPlayer + Time.deltaTime;
         }
 
         private void InteractWithCombat()

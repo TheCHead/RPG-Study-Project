@@ -52,7 +52,7 @@ namespace RPG.Movement
 
         public void Cancel()
         {
-            print("Cancel movement");
+            StopMoving();
         }
     }
 }
