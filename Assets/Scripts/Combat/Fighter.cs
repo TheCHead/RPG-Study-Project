@@ -14,6 +14,9 @@ namespace RPG.Combat
         float timeSinceLastAttack = Mathf.Infinity;
         [SerializeField] float baseDamage = 5f;
 
+        [Range(0,1)]
+        [SerializeField] float chaseSpeedModifier = 0.6f;
+
         private void Update()
         {
             timeSinceLastAttack += Time.deltaTime;
@@ -28,7 +31,7 @@ namespace RPG.Combat
 
                 else
                 {
-                    GetComponent<Mover>().MoveTo(target.position);
+                    GetComponent<Mover>().MoveTo(target.position, chaseSpeedModifier);
                     if (Vector3.Distance(transform.position, target.position) <= weaponRange)
                     {
                         GetComponent<Mover>().StopMoving();
@@ -89,6 +92,8 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("stopAttack");
             DropTarget();
             print("Cancel fighting");
+
+            GetComponent<Mover>().Cancel();
         }
 
         // Animation Event

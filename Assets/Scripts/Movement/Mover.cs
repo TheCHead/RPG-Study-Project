@@ -12,6 +12,7 @@ namespace RPG.Movement
         Ray lastRay;
         NavMeshAgent myNavMeshAvent;
         Health health;
+        [SerializeField] float maxSpeed = 5f;
 
         private void Start()
         {
@@ -25,14 +26,15 @@ namespace RPG.Movement
             UpdateAnimator();
         }
 
-        public void StartMoveAction(Vector3 destination)
+        public void StartMoveAction(Vector3 destination , float speedModifier)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(destination);
+            MoveTo(destination, speedModifier);
         }
 
-        public void MoveTo(Vector3 destination)
+        public void MoveTo(Vector3 destination, float speedModifier)
         {
+            myNavMeshAvent.speed = maxSpeed * Mathf.Clamp01(speedModifier);
             myNavMeshAvent.destination = destination;
             myNavMeshAvent.isStopped = false;
         }

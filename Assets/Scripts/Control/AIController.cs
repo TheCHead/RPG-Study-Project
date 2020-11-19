@@ -25,6 +25,9 @@ namespace RPG.Control
         [SerializeField] float waypointTolerance = 1f;
         [SerializeField] float waypointDwellTime = 2f;
         float timeSinceReachedWP = Mathf.Infinity;
+        [Range(0, 1)]
+        [SerializeField] float patrolSpeedModifier = 0.2f;
+        
 
         private void Start()
         {
@@ -40,8 +43,7 @@ namespace RPG.Control
 
             if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance)
             {
-                InteractWithCombat();
-                timeSinceLastSawPlayer = 0f;
+                ChaseBehaviour();
             }
 
             else if (timeSinceLastSawPlayer < suspicionTime)
@@ -65,6 +67,12 @@ namespace RPG.Control
             UpdateTimers();
         }
 
+        private void ChaseBehaviour()
+        {
+            InteractWithCombat();
+            timeSinceLastSawPlayer = 0f;
+        }
+
         private void UpdateTimers()
         {
             timeSinceReachedWP += Time.deltaTime;
@@ -73,13 +81,12 @@ namespace RPG.Control
 
         private void PatrolBehaviour()
         {
-
             if (timeSinceReachedWP < waypointDwellTime)
             {
                 return;
             }
 
-            GetComponent<Mover>().StartMoveAction(patrolPath.transform.GetChild(nextWPindex).position);
+            GetComponent<Mover>().StartMoveAction(patrolPath.transform.GetChild(nextWPindex).position, patrolSpeedModifier);
 
             if (IsAtWaypoint())
             {
@@ -108,7 +115,7 @@ namespace RPG.Control
 
         private void GuardBehaviour()
         {
-            GetComponent<Mover>().StartMoveAction(guardPosition);
+            GetComponent<Mover>().StartMoveAction(guardPosition, patrolSpeedModifier);
         }
 
         private void SuspicionBehaviour()

@@ -39,6 +39,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseDistance: 5
+  suspicionTime: 5
+  patrolPath: {fileID: 0}
+  waypointTolerance: 1
+  waypointDwellTime: 2
+  patrolSpeedModifier: 0.4
 --- !u!1001 &7943874735590930935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54,32 +59,32 @@ PrefabInstance:
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.29
+      value: -1.4612427
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.9959717
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.07
+      value: 15.531906
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1772425196341942778, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
@@ -106,13 +111,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1884619999, guid: aeb93603b689ef34886bce235a66539c, type: 3}
-      propertyPath: m_Speed
-      value: 3
+    - target: {fileID: 9047928159718403599, guid: aeb93603b689ef34886bce235a66539c,
+        type: 3}
+      propertyPath: health
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
       propertyPath: weaponRange
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: baseDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: chaseSpeedModifier
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1884619999, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: m_Speed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb93603b689ef34886bce235a66539c, type: 3}
