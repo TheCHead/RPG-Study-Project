@@ -9,7 +9,7 @@ namespace RPG.Core
     public class Health : MonoBehaviour, ISaveable
     {
         [SerializeField] float health = 20f;
-        bool isDead = false;
+        public bool isDead = false;
 
 
 
@@ -18,7 +18,6 @@ namespace RPG.Core
         {
             return isDead;
         }
-
 
 
         public void TakeDamage(float damage)
@@ -35,28 +34,40 @@ namespace RPG.Core
 
         private void DeathSequence()
         {
-            GetComponent<Animator>().SetTrigger("die");
-            GetComponent<ActionScheduler>().CancelCurrentAction();
             isDead = true;
+            GetComponent<Animator>().SetTrigger("die");
+            GetComponent<Animator>().ResetTrigger("rise");
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
 
         public object CaptureState()
         {
-            return health;
+            HealthSaveData data = new HealthSaveData();
+            data.health = health;
+            data.isDead = isDead;
+
+            return data;
         }
 
         public void RestoreState(object state)
         {
-            health = (float)state;
+            HealthSaveData data = (HealthSaveData)state;
+            health = data.health;
+            isDead = data.isDead;
 
-            if (health <= 0)
+            if (!isDead)
             {
-                if (!isDead)
-                {
-                    DeathSequence();
-                }
+                GetComponent<Animator>().SetTrigger("rise");
             }
+
+        }
+
+        [System.Serializable]
+        struct HealthSaveData
+        {
+            public float health;
+            public bool isDead;
         }
     }
 }
