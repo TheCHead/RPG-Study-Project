@@ -9,13 +9,39 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         Transform target;
-        [SerializeField] float weaponRange = 2f;
+        float baseRange = 1f;
+        float baseDamage = 1f;
         [SerializeField] float timeBetweenAttacks = 1f;
         float timeSinceLastAttack = Mathf.Infinity;
-        [SerializeField] float baseDamage = 5f;
+        
+        [SerializeField] Transform handTransform = null;
+
+        [SerializeField] Weapon defaultWeapon = null;
+        Weapon currentWeapon = null;
 
         [Range(0,1)]
         [SerializeField] float chaseSpeedModifier = 0.6f;
+
+        private void Start()
+        {
+            EquipWeapon(defaultWeapon);
+        }
+
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            Animator animator = GetComponent<Animator>();
+            weapon.Spawn(handTransform, animator);
+
+            GetWeaponStats(weapon);
+        }
+
+        private void GetWeaponStats(Weapon weapon)
+        {
+            baseDamage = weapon.GetWeaponDamage();
+            baseRange = weapon.GetWeaponRange();
+        }
 
         private void Update()
         {
@@ -32,7 +58,7 @@ namespace RPG.Combat
                 else
                 {
                     GetComponent<Mover>().MoveTo(target.position, chaseSpeedModifier);
-                    if (Vector3.Distance(transform.position, target.position) <= weaponRange)
+                    if (Vector3.Distance(transform.position, target.position) <= baseRange)
                     {
                         GetComponent<Mover>().StopMoving();
                         // Attack target

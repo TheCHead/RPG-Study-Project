@@ -44,7 +44,7 @@ namespace RPG.Movement
         {
             myNavMeshAvent.isStopped = true;
         }
-
+        
         private void UpdateAnimator()
         {
             Vector3 velocity = GetComponent<NavMeshAgent>().velocity;
