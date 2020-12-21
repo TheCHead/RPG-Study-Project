@@ -14,20 +14,39 @@ namespace RPG.Combat
         [SerializeField] float weaponDamage = 5f;
         [SerializeField] float weaponRange = 2f;
         [SerializeField] WeaponType weaponType;
-
         [SerializeField] Projectile projectile = null;
+
+        const string weaponName = "Weapon";
 
         public void Spawn(Transform rightHandTransform, Transform leftHandTransform, Animator animator)
         {
+            DestroyOldWeapon(rightHandTransform, leftHandTransform);
+
             if (weaponPrefab != null)
             {
-                Instantiate(weaponPrefab, GetHandTransform(rightHandTransform, leftHandTransform));
+                GameObject weapon = Instantiate(weaponPrefab, GetHandTransform(rightHandTransform, leftHandTransform));
+                weapon.name = weaponName;
             }
 
             if (animatorOverride != null)
             {
                 animator.runtimeAnimatorController = animatorOverride;
             }
+
+        }
+
+        private void DestroyOldWeapon(Transform rightHandTransform, Transform leftHandTransform)
+        {
+            Transform oldWeapon = rightHandTransform.Find(weaponName);
+            if (oldWeapon == null)
+            {
+                oldWeapon = leftHandTransform.Find(weaponName);
+            }
+
+            if (oldWeapon == null) return;
+
+            oldWeapon.name = "Destroying";
+            Destroy(oldWeapon.gameObject);
 
         }
 
