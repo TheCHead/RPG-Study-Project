@@ -30,6 +30,8 @@ namespace RPG.Core
                     DeathSequence();
                 }
             }
+
+            
         }
 
         private void DeathSequence()

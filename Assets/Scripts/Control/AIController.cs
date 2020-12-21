@@ -27,6 +27,10 @@ namespace RPG.Control
         float timeSinceReachedWP = Mathf.Infinity;
         [Range(0, 1)]
         [SerializeField] float patrolSpeedModifier = 0.2f;
+
+        [SerializeField] float stopChaseDistance = 20f;
+
+        bool isTriggered = false;
         
 
         private void Start()
@@ -41,10 +45,17 @@ namespace RPG.Control
         {
             if (health.IsDead()) { return; }
 
-            if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance)
+            if (Vector3.Distance(transform.position, player.transform.position) > stopChaseDistance)
             {
+                isTriggered = false;
+            }
+
+            if (Vector3.Distance(transform.position, player.transform.position) < chaseDistance || isTriggered)
+            {
+                isTriggered = true;
                 ChaseBehaviour();
             }
+            
 
             else if (timeSinceLastSawPlayer < suspicionTime)
             {
@@ -66,6 +77,13 @@ namespace RPG.Control
 
             UpdateTimers();
         }
+
+        public void SetTriggered()
+        {
+            isTriggered = true;
+            print("triggered");
+        }
+
 
         private void ChaseBehaviour()
         {

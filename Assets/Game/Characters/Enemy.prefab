@@ -38,12 +38,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fbedcac461dc34fabf973ab0c305e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseDistance: 5
+  chaseDistance: 10
   suspicionTime: 5
   patrolPath: {fileID: 0}
   waypointTolerance: 1
   waypointDwellTime: 2
   patrolSpeedModifier: 0.4
+  stopChaseDistance: 15
 --- !u!1001 &7943874735590930935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,6 +143,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c611219a67273e4b9e249b44c7b34bd,
         type: 2}
+    - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: rightHandTransform
+      value: 
+      objectReference: {fileID: 8291237824750612238}
+    - target: {fileID: 1551050025, guid: aeb93603b689ef34886bce235a66539c, type: 3}
+      propertyPath: leftHandTransform
+      value: 
+      objectReference: {fileID: 8291237824750669670}
     - target: {fileID: 1884619999, guid: aeb93603b689ef34886bce235a66539c, type: 3}
       propertyPath: m_Speed
       value: 3
@@ -217,6 +226,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+--- !u!4 &8291237824750669670 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 403948, guid: 679ff741e12a7e740819ede24a7000b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8291237824750806666}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8291237824750612238 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 461188, guid: 679ff741e12a7e740819ede24a7000b7,

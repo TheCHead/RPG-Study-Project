@@ -8,19 +8,21 @@ namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        Transform target;
+        GameObject target;
         float baseRange = 1f;
         float baseDamage = 1f;
         [SerializeField] float timeBetweenAttacks = 1f;
         float timeSinceLastAttack = Mathf.Infinity;
         
-        [SerializeField] Transform handTransform = null;
+        [SerializeField] Transform rightHandTransform = null;
+        [SerializeField] Transform leftHandTransform = null;
 
         [SerializeField] Weapon defaultWeapon = null;
         Weapon currentWeapon = null;
 
         [Range(0,1)]
         [SerializeField] float chaseSpeedModifier = 0.6f;
+
 
         private void Start()
         {
@@ -32,7 +34,7 @@ namespace RPG.Combat
         {
             currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(handTransform, animator);
+            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
 
             GetWeaponStats(weapon);
         }
@@ -57,8 +59,8 @@ namespace RPG.Combat
 
                 else
                 {
-                    GetComponent<Mover>().MoveTo(target.position, chaseSpeedModifier);
-                    if (Vector3.Distance(transform.position, target.position) <= baseRange)
+                    GetComponent<Mover>().MoveTo(target.transform.position, chaseSpeedModifier);
+                    if (Vector3.Distance(transform.position, target.transform.position) <= baseRange)
                     {
                         GetComponent<Mover>().StopMoving();
                         // Attack target
@@ -90,7 +92,7 @@ namespace RPG.Combat
 
         private void AttackBehaviour()
         {
-            transform.LookAt(target);
+            transform.LookAt(target.transform);
             if (timeSinceLastAttack >= timeBetweenAttacks)
             {
                 // This will trigger Hit animation event
@@ -104,7 +106,7 @@ namespace RPG.Combat
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.transform;
+            target = combatTarget.gameObject;
         }
 
         private void DropTarget()
@@ -126,10 +128,15 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
-
-
-            print("Get that you smooth monster!");
             target.GetComponent<Health>().TakeDamage(baseDamage);
         }
+
+
+        // Animation Event
+        void Shoot()
+        {
+            currentWeapon.LaunchProjectile(target, rightHandTransform, leftHandTransform);
+        }
+
     }
 }
