@@ -64,14 +64,19 @@ namespace RPG.Combat
                     other.GetComponent<AIController>().SetTriggered();
                 }
 
+                projectileSpeed = 0f;
+
                 if (hitEffect != null)
                 {
-                    Instantiate(hitEffect, transform.position, Quaternion.identity);
+                    GameObject hitParticle = Instantiate(hitEffect, transform.position, Quaternion.identity);
+                    Destroy(hitParticle, 1f);
                 }
 
-                
-
-                Destroy(gameObject);
+                if (transform.Find("Head"))
+                {
+                    Destroy(transform.Find("Head").gameObject);
+                }
+                Destroy(gameObject, 2f);
             }
         }
 
