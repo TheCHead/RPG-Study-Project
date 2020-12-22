@@ -194,6 +194,9 @@ MonoBehaviour:
   projectileSpeed: 15
   projectileDamageModifier: 1
   projectileLifetime: 5
+  isHoming: 0
+  hitEffect: {fileID: 2302031793876965989, guid: 6af4a8a023954774b8c07cd6fc9f8875,
+    type: 3}
 --- !u!65 &2548741239738033677
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -205,7 +208,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.06793751, y: 0.07142949, z: 0.41864955}
+  m_Size: {x: 0.2, y: 0.2, z: 0.41864955}
   m_Center: {x: 0.0027634576, y: 0.005092025, z: 0.50364596}
 --- !u!1001 &7260307998021857254
 PrefabInstance:

@@ -14,17 +14,24 @@ namespace RPG.Combat
         float damage;
         [SerializeField] float projectileDamageModifier = 1f;
         [SerializeField] float projectileLifetime = 8f;
+        [SerializeField] bool isHoming = false;
+        [SerializeField] GameObject hitEffect = null;
 
         private void Start()
         {
             DestroyOnTime();
+            transform.LookAt(GetAimLocation());
         }
 
         // Update is called once per frame
         void Update()
         {
-            transform.LookAt(GetAimLocation());
-            transform.position = Vector3.MoveTowards(transform.position, GetAimLocation(), Time.deltaTime * projectileSpeed);
+            if (isHoming && !enemyTarget.GetComponent<Health>().IsDead())
+            {
+                transform.LookAt(GetAimLocation());
+            }
+
+            transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
         }
 
         private Vector3 GetAimLocation()
@@ -34,6 +41,7 @@ namespace RPG.Combat
             {
                 return enemyTarget.transform.position + Vector3.up * (targetCollider.height / 2);
             }
+            
             return enemyTarget.transform.position;
         }
 
@@ -47,9 +55,23 @@ namespace RPG.Combat
         {
             if (other.gameObject == enemyTarget.gameObject)
             {
+                if (other.GetComponent<Health>().IsDead()) return;
+
                 other.gameObject.GetComponent<Health>().TakeDamage(damage);
+
+                if (other.GetComponent<AIController>() != null)
+                {
+                    other.GetComponent<AIController>().SetTriggered();
+                }
+
+                if (hitEffect != null)
+                {
+                    Instantiate(hitEffect, transform.position, Quaternion.identity);
+                }
+
+                
+
                 Destroy(gameObject);
-                other.GetComponent<AIController>().SetTriggered();
             }
         }
 

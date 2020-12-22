@@ -36,6 +36,7 @@ namespace RPG.Core
 
         private void DeathSequence()
         {
+            //GetComponent<CapsuleCollider>().enabled = false;
             isDead = true;
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<Animator>().ResetTrigger("rise");

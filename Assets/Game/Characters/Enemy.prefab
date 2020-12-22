@@ -44,7 +44,7 @@ MonoBehaviour:
   waypointTolerance: 1
   waypointDwellTime: 2
   patrolSpeedModifier: 0.4
-  stopChaseDistance: 15
+  stopChaseDistance: 20
 --- !u!1001 &7943874735590930935
 PrefabInstance:
   m_ObjectHideFlags: 0
