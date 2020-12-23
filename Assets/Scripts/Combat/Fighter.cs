@@ -1,12 +1,13 @@
 ﻿using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         GameObject target;
         float baseRange = 1f;
@@ -17,15 +18,20 @@ namespace RPG.Combat
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
 
+        [Range(0,1)]
+        [SerializeField] float chaseSpeedModifier = 0.6f;
+
         [SerializeField] Weapon defaultWeapon = null;
         Weapon currentWeapon = null;
 
-        [Range(0,1)]
-        [SerializeField] float chaseSpeedModifier = 0.6f;
 
 
         private void Start()
         {
+            //if (GetComponent<Health>().IsDead()) return;
+
+            if (currentWeapon != null) return;
+
             EquipWeapon(defaultWeapon);
         }
 
@@ -138,5 +144,16 @@ namespace RPG.Combat
             currentWeapon.LaunchProjectile(target, rightHandTransform, leftHandTransform);
         }
 
+        public object CaptureState()
+        {
+            return currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
+        }
     }
 }

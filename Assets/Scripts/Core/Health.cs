@@ -12,13 +12,10 @@ namespace RPG.Core
         public bool isDead = false;
 
 
-
-
         public bool IsDead()
         {
             return isDead;
         }
-
 
         public void TakeDamage(float damage)
         {
@@ -29,9 +26,7 @@ namespace RPG.Core
                 {
                     DeathSequence();
                 }
-            }
-
-            
+            }          
         }
 
         private void DeathSequence()
@@ -62,6 +57,10 @@ namespace RPG.Core
             if (!isDead)
             {
                 GetComponent<Animator>().SetTrigger("rise");
+            }
+            else
+            {
+                GetComponent<Animator>().SetTrigger("instantDie");
             }
 
         }
