@@ -15,6 +15,8 @@ namespace RPG.Combat
         [SerializeField] bool isHoming = false;
         [SerializeField] GameObject hitEffect = null;
 
+        GameObject myInstigator = null;
+
         private void Start()
         {
             DestroyOnTime();
@@ -43,10 +45,11 @@ namespace RPG.Combat
             return enemyTarget.transform.position;
         }
 
-        public void SetEnemyTarget(GameObject enemy, float damageToDeal)
+        public void SetEnemyTarget(GameObject instigator, GameObject enemy, float damageToDeal)
         {
             this.enemyTarget = enemy;
             this.damage = damageToDeal * projectileDamageModifier;
+            myInstigator = instigator;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -55,7 +58,7 @@ namespace RPG.Combat
             {
                 if (other.GetComponent<Health>().IsDead()) return;
 
-                other.gameObject.GetComponent<Health>().TakeDamage(damage);
+                other.gameObject.GetComponent<Health>().TakeDamage(myInstigator, damage);
 
                 if (other.GetComponent<AIController>() != null)
                 {

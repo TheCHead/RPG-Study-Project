@@ -12,6 +12,7 @@ namespace RPG.Resources
     {
         [SerializeField] float health = 20f;
         public bool isDead = false;
+        GameObject instigator = null;
 
 
         private void Start()
@@ -24,8 +25,10 @@ namespace RPG.Resources
             return isDead;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
+            this.instigator = instigator;
+
             health = Mathf.Max(health - damage, 0);
             if (health <= 0)
             {
@@ -38,13 +41,21 @@ namespace RPG.Resources
 
         private void DeathSequence()
         {
-            //GetComponent<CapsuleCollider>().enabled = false;
+            AwardExperiencePoints();
+
             isDead = true;
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<Animator>().ResetTrigger("rise");
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
+        private void AwardExperiencePoints()
+        {
+            if (instigator.GetComponent<Experience>() != null)
+            {
+                instigator.GetComponent<Experience>().GetExp(gameObject.GetComponent<BaseStats>().GetExperienceReward());
+            }
+        }
 
         public object CaptureState()
         {

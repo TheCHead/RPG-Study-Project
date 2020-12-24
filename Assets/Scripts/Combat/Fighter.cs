@@ -138,14 +138,14 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
-            target.GetComponent<Health>().TakeDamage(baseDamage);
+            target.GetComponent<Health>().TakeDamage(gameObject, baseDamage);
         }
 
 
         // Animation Event
         void Shoot()
         {
-            currentWeapon.LaunchProjectile(target, rightHandTransform, leftHandTransform);
+            currentWeapon.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform);
         }
 
         public object CaptureState()
