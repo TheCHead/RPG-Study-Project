@@ -10,7 +10,7 @@ namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction, ISaveable
     {
-        GameObject target;
+        GameObject target = null;
         float baseRange = 1f;
         float baseDamage = 1f;
         [SerializeField] float timeBetweenAttacks = 1f;
@@ -95,7 +95,10 @@ namespace RPG.Combat
             }
         }
 
-
+        public Health GetTarget()
+        {
+            return target.GetComponent<Health>();
+        }
 
         private void AttackBehaviour()
         {

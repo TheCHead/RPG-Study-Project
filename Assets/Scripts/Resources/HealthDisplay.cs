@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//using RPG.Combat;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ namespace RPG.Resources
     {
         Health health;
         [SerializeField] Text healthDisplayText;
+        //Health enemyHealth;
+        //[SerializeField] Text enemyHealthDisplayText;
 
         private void Awake()
         {
@@ -25,6 +28,13 @@ namespace RPG.Resources
         void Update()
         {
             healthDisplayText.text = health.GetCurrentHealth().ToString();
+
+            //enemyHealthDisplayText.text = "N/A";
+            //Health targetHealth = health.GetComponent<Fighter>().GetTarget();
+            //if (targetHealth != null)
+            //{
+            //    enemyHealthDisplayText.text = targetHealth.GetCurrentHealth().ToString();
+            //}
         }
     }
 }

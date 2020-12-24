@@ -1850,6 +1850,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a346deceb21d0c4781e67a70fbcc1f6, type: 3}
+--- !u!114 &951112336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1337546667414526206, guid: 823244301d56cf445aa943e43b51f43d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1529699263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1005508474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3012,16 +3024,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.000000039115562
       objectReference: {fileID: 0}
-    - target: {fileID: 5911915559788342395, guid: 823244301d56cf445aa943e43b51f43d,
-        type: 3}
-      propertyPath: health
-      value: 20000
-      objectReference: {fileID: 0}
     - target: {fileID: 5973087048114575401, guid: 823244301d56cf445aa943e43b51f43d,
         type: 3}
       propertyPath: startingLevel
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5973087048114575401, guid: 823244301d56cf445aa943e43b51f43d,
+        type: 3}
+      propertyPath: characterClass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5025279256460774644, guid: 823244301d56cf445aa943e43b51f43d,
+        type: 3}
+      propertyPath: enemyHealthDisplayText
+      value: 
+      objectReference: {fileID: 951112336}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 823244301d56cf445aa943e43b51f43d, type: 3}
 --- !u!1001 &1545729562

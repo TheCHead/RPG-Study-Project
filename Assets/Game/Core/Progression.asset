@@ -14,14 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterClasses:
   - charClass: 1
-    health: 320000006400000096000000
-    damage: 
+    health:
+    - 40
+    - 60
+    - 80
+    damage: []
   - charClass: 2
-    health: 
-    damage: 
+    health: []
+    damage: []
   - charClass: 3
-    health: 1e0000003c0000005a000000
-    damage: 
+    health:
+    - 30
+    - 45
+    - 60
+    damage: []
   - charClass: 0
-    health: 64000000c80000002c010000
-    damage: 
+    health:
+    - 100
+    - 150
+    - 200
+    damage: []
