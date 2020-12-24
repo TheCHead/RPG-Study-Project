@@ -27,6 +27,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 1
+--- !u!114 &550302640314729874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504332308155044872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270ac2e5e0bf9ee42aa15c0850de3332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expPoints: 0
 --- !u!1001 &6854607979687911609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -401,6 +414,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9043032743110646365, guid: aeb93603b689ef34886bce235a66539c,
+        type: 3}
+      propertyPath: characterClass
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9047928159718403599, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: health
@@ -453,11 +471,6 @@ PrefabInstance:
     - target: {fileID: 1884619999, guid: aeb93603b689ef34886bce235a66539c, type: 3}
       propertyPath: m_Radius
       value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9043032743110646365, guid: aeb93603b689ef34886bce235a66539c,
-        type: 3}
-      propertyPath: characterClass
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb93603b689ef34886bce235a66539c, type: 3}

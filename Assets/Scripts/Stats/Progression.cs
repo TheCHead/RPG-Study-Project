@@ -23,6 +23,8 @@ namespace RPG.Stats
                     {
                         if (s.stat == stat)
                         {
+                            if (s.levels.Count < level) continue;
+ 
                             output = s.levels[level - 1];
                             return output;
                         }

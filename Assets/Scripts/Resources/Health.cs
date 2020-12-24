@@ -14,10 +14,14 @@ namespace RPG.Resources
         public bool isDead = false;
         GameObject instigator = null;
 
+        private void Awake()
+        {
+            health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+        }
 
         private void Start()
         {
-            health = GetComponent<BaseStats>().GetBaseHealth();
+            
         }
 
         public bool IsDead()
@@ -53,7 +57,7 @@ namespace RPG.Resources
         {
             if (instigator.GetComponent<Experience>() != null)
             {
-                instigator.GetComponent<Experience>().GetExp(gameObject.GetComponent<BaseStats>().GetExperienceReward());
+                instigator.GetComponent<Experience>().GetExp(gameObject.GetComponent<BaseStats>().GetStat(Stats.Stats.ExperienceReward));
             }
         }
 
