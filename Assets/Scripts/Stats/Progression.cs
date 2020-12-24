@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,27 +12,56 @@ namespace RPG.Stats
         [SerializeField] List<ProgressionCharacterClass> characterClasses = null;
 
 
+        Dictionary<CharacterClass, Dictionary<Stats, List<float>>> lookupTable;
+
 
         public float GetStat(CharacterClass charClass, Stats stat, int level)
         {
+            BuildLookup();
+
             float output = 0;
+
+            List<float> levels = lookupTable[charClass][stat];
+
+            if (levels.Count < level) return 0;
+
+            return levels[level - 1];
+
+            //foreach (ProgressionCharacterClass c in characterClasses)
+            //{
+            //    if (c.charClass == charClass)
+            //    {
+            //        foreach (charClassStats s in c.stats)
+            //        {
+            //            if (s.stat == stat)
+            //            {
+            //                if (s.levels.Count < level) continue;
+ 
+            //                output = s.levels[level - 1];
+            //                return output;
+            //            }
+            //        }
+            //    }
+            //}
+            //return output;
+        }
+
+        private void BuildLookup()
+        {
+            if (lookupTable != null) return;
+
+            lookupTable = new Dictionary<CharacterClass, Dictionary<Stats, List<float>>>();
+
             foreach (ProgressionCharacterClass c in characterClasses)
             {
-                if (c.charClass == charClass)
+                Dictionary<Stats, List<float>> statsDict = new Dictionary<Stats, List<float>>();
+
+                foreach (charClassStats s in c.stats)
                 {
-                    foreach (charClassStats s in c.stats)
-                    {
-                        if (s.stat == stat)
-                        {
-                            if (s.levels.Count < level) continue;
- 
-                            output = s.levels[level - 1];
-                            return output;
-                        }
-                    }
+                    statsDict.Add(s.stat, s.levels);                   
                 }
+                lookupTable.Add(c.charClass, statsDict);
             }
-            return output;
         }
 
         [System.Serializable]

@@ -97,6 +97,10 @@ namespace RPG.Combat
 
         public Health GetTarget()
         {
+            if (target == null)
+            {
+                return null;
+            }
             return target.GetComponent<Health>();
         }
 
