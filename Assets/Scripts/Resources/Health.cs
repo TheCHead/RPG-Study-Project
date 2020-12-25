@@ -10,18 +10,18 @@ namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] float health = 20f;
+        float health = -1f;
         public bool isDead = false;
         GameObject instigator = null;
 
-        private void Awake()
-        {
-            health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
-        }
+
 
         private void Start()
         {
-            
+            if (health < 0)
+            {
+                health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            }
         }
 
         public bool IsDead()
