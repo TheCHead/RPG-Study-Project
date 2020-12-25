@@ -19,8 +19,6 @@ namespace RPG.Stats
         {
             BuildLookup();
 
-            float output = 0;
-
             List<float> levels = lookupTable[charClass][stat];
 
             if (levels.Count < level) return 0;
