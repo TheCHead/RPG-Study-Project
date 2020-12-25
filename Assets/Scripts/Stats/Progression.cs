@@ -64,6 +64,11 @@ namespace RPG.Stats
             }
         }
 
+        public List<float> GetExpLevels(CharacterClass charClass, Stats stat)
+        {
+            return lookupTable[charClass][stat];
+        }
+
         [System.Serializable]
         class ProgressionCharacterClass
         {
