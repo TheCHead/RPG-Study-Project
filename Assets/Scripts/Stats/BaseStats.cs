@@ -26,12 +26,7 @@ namespace RPG.Stats
 
         private void UpdateLevel()
         {
-            int newLevel = CalculateLevel();
-            if (newLevel > currentLevel)
-            {
-                currentLevel = newLevel;
-                print("Leveled up");
-            }
+            currentLevel = CalculateLevel();
         }
 
 
@@ -51,6 +46,7 @@ namespace RPG.Stats
 
         public int CalculateLevel()
         {
+
             int level = 1;
 
             if (gameObject.GetComponent<Experience>() == null) return startingLevel;

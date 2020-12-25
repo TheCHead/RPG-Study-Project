@@ -25,23 +25,6 @@ namespace RPG.Stats
 
             return levels[level - 1];
 
-            //foreach (ProgressionCharacterClass c in characterClasses)
-            //{
-            //    if (c.charClass == charClass)
-            //    {
-            //        foreach (charClassStats s in c.stats)
-            //        {
-            //            if (s.stat == stat)
-            //            {
-            //                if (s.levels.Count < level) continue;
- 
-            //                output = s.levels[level - 1];
-            //                return output;
-            //            }
-            //        }
-            //    }
-            //}
-            //return output;
         }
 
         private void BuildLookup()
@@ -73,9 +56,6 @@ namespace RPG.Stats
             public CharacterClass charClass;
 
             public List<charClassStats> stats = null;
-
-            //public List<float> health = new List<float>();
-            //public List<float> damage = new List<float>();
 
         }
 
