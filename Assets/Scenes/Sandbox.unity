@@ -3024,6 +3024,12 @@ PrefabInstance:
       propertyPath: enemyHealthDisplayText
       value: 
       objectReference: {fileID: 951112336}
+    - target: {fileID: 5973087048114575401, guid: 823244301d56cf445aa943e43b51f43d,
+        type: 3}
+      propertyPath: levelUpFX
+      value: 
+      objectReference: {fileID: 6510030419993347171, guid: dc994057aa7623e4589a8a7bc3a6d64f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 823244301d56cf445aa943e43b51f43d, type: 3}
 --- !u!1001 &1545729562

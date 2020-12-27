@@ -10,7 +10,8 @@ namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        float health = -1f;
+        float currentHealth = -1f;
+        float maxHealth = 0f;
         public bool isDead = false;
         GameObject instigator = null;
 
@@ -18,10 +19,25 @@ namespace RPG.Resources
 
         private void Start()
         {
-            if (health < 0)
-            {
-                health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+
+            if (currentHealth < 0)
+            {               
+                currentHealth = maxHealth;
             }
+
+            BaseStats stats = GetComponent<BaseStats>();
+            if (stats != null)
+            {
+                stats.onLevelup += UpgradeHealth;
+            }
+        }
+
+        private void UpgradeHealth()
+        {
+            float nextMaxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            currentHealth += (nextMaxHealth - maxHealth);
+            maxHealth = nextMaxHealth;
         }
 
         public bool IsDead()
@@ -33,8 +49,8 @@ namespace RPG.Resources
         {
             this.instigator = instigator;
 
-            health = Mathf.Max(health - damage, 0);
-            if (health <= 0)
+            currentHealth = Mathf.Max(currentHealth - damage, 0);
+            if (currentHealth <= 0)
             {
                 if (!isDead)
                 {
@@ -64,7 +80,7 @@ namespace RPG.Resources
         public object CaptureState()
         {
             HealthSaveData data = new HealthSaveData();
-            data.health = health;
+            data.health = currentHealth;
             data.isDead = isDead;
 
             return data;
@@ -73,7 +89,7 @@ namespace RPG.Resources
         public void RestoreState(object state)
         {
             HealthSaveData data = (HealthSaveData)state;
-            health = data.health;
+            currentHealth = data.health;
             isDead = data.isDead;
 
             if (!isDead)
@@ -96,7 +112,7 @@ namespace RPG.Resources
 
         public float GetCurrentHealth()
         {
-            return health;
+            return currentHealth;
         }
     }
 }
