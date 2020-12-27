@@ -47,6 +47,8 @@ namespace RPG.Resources
 
         public void TakeDamage(GameObject instigator, float damage)
         {
+            print(gameObject.name + " took damage: " + damage);
+
             this.instigator = instigator;
 
             currentHealth = Mathf.Max(currentHealth - damage, 0);

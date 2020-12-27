@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Resources;
+using RPG.Stats;
 
 namespace RPG.Combat
 {
@@ -142,14 +143,14 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
-            target.GetComponent<Health>().TakeDamage(gameObject, baseDamage);
+            target.GetComponent<Health>().TakeDamage(gameObject, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
         }
 
 
         // Animation Event
         void Shoot()
         {
-            currentWeapon.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform);
+            currentWeapon.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
         }
 
         public object CaptureState()
