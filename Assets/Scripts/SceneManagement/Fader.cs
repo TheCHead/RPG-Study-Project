@@ -43,12 +43,12 @@ namespace RPG.SceneManagement
 
         private void Start()
         {
-            canvasGroup = GetComponent<CanvasGroup>();
+            
         }
 
         private void Awake()
         {
-            
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
     }

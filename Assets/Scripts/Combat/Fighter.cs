@@ -9,7 +9,7 @@ using RPG.Stats;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         GameObject target = null;
         float baseRange = 1f;
@@ -163,6 +163,22 @@ namespace RPG.Combat
             string weaponName = (string)state;
             Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
+        }
+
+        public IEnumerable<float> GetAdditiveModifier(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.GetWeaponDamage();
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifier(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return currentWeapon.GetPercentageModifier();
+            }
         }
     }
 }
