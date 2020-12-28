@@ -16,10 +16,15 @@ namespace RPG.Movement
         Health health;
         [SerializeField] float maxSpeed = 5f;
 
-        private void Start()
+        private void Awake()
         {
             health = GetComponent<Health>();
             myNavMeshAvent = GetComponent<NavMeshAgent>();
+        }
+
+        private void Start()
+        {
+            
         }
 
         private void Update()

@@ -5,38 +5,56 @@ using UnityEngine;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
+using GameDevTV.Utils;
 
 namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        float currentHealth = -1f;
+        LazyValue<float> currentHealth;
         float maxHealth = 0f;
         public bool isDead = false;
         GameObject instigator = null;
 
+        private void Awake()
+        {          
+            currentHealth = new LazyValue<float>(GetInitialHealth);
+        }
 
+        
+
+        public float GetInitialHealth()
+        {
+            return GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+        }
+
+        private void OnEnable()
+        {
+            GetComponent<BaseStats>().onLevelup += UpgradeHealth;
+        }
+
+        private void OnDisable()
+        {
+            GetComponent<BaseStats>().onLevelup -= UpgradeHealth;
+        }
+
+        
 
         private void Start()
         {
             maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            currentHealth.ForceInit();
 
-            if (currentHealth < 0)
-            {               
-                currentHealth = maxHealth;
-            }
-
-            BaseStats stats = GetComponent<BaseStats>();
-            if (stats != null)
-            {
-                stats.onLevelup += UpgradeHealth;
-            }
+            //if (currentHealth < 0)
+            //{               
+            //    currentHealth = maxHealth;
+            //}
         }
 
         private void UpgradeHealth()
         {
             float nextMaxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
-            currentHealth += (nextMaxHealth - maxHealth);
+            currentHealth.value += (nextMaxHealth - maxHealth);
             maxHealth = nextMaxHealth;
         }
 
@@ -51,8 +69,8 @@ namespace RPG.Resources
 
             this.instigator = instigator;
 
-            currentHealth = Mathf.Max(currentHealth - damage, 0);
-            if (currentHealth <= 0)
+            currentHealth.value = Mathf.Max(currentHealth.value - damage, 0);
+            if (currentHealth.value <= 0)
             {
                 if (!isDead)
                 {
@@ -82,7 +100,7 @@ namespace RPG.Resources
         public object CaptureState()
         {
             HealthSaveData data = new HealthSaveData();
-            data.health = currentHealth;
+            data.health = currentHealth.value;
             data.isDead = isDead;
 
             return data;
@@ -91,7 +109,7 @@ namespace RPG.Resources
         public void RestoreState(object state)
         {
             HealthSaveData data = (HealthSaveData)state;
-            currentHealth = data.health;
+            currentHealth.value = data.health;
             isDead = data.isDead;
 
             if (!isDead)
@@ -114,7 +132,7 @@ namespace RPG.Resources
 
         public float GetCurrentHealth()
         {
-            return currentHealth;
+            return currentHealth.value;
         }
     }
 }

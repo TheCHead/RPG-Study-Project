@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Resources;
 using RPG.Stats;
+using GameDevTV.Utils;
 
 namespace RPG.Combat
 {
@@ -24,26 +25,35 @@ namespace RPG.Combat
         [SerializeField] float chaseSpeedModifier = 0.6f;
 
         [SerializeField] Weapon defaultWeapon = null;
-        Weapon currentWeapon = null;
+        LazyValue<Weapon> currentWeapon;
 
-
+        private void Awake()
+        {
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+        }
 
         private void Start()
         {
-            //if (GetComponent<Health>().IsDead()) return;
+            currentWeapon.ForceInit();
+        }
 
-            if (currentWeapon != null) return;
-
-            EquipWeapon(defaultWeapon);
+        private Weapon SetupDefaultWeapon()
+        {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
         }
 
 
         public void EquipWeapon(Weapon weapon)
         {
-            currentWeapon = weapon;
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private void AttachWeapon(Weapon weapon)
+        {
             Animator animator = GetComponent<Animator>();
             weapon.Spawn(rightHandTransform, leftHandTransform, animator);
-
             GetWeaponStats(weapon);
         }
 
@@ -150,12 +160,12 @@ namespace RPG.Combat
         // Animation Event
         void Shoot()
         {
-            currentWeapon.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
+            currentWeapon.value.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
         }
 
         public object CaptureState()
         {
-            return currentWeapon.name;
+            return currentWeapon.value.name;
         }
 
         public void RestoreState(object state)
@@ -169,7 +179,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.GetWeaponDamage();
+                yield return currentWeapon.value.GetWeaponDamage();
             }
         }
 
@@ -177,7 +187,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.GetPercentageModifier();
+                yield return currentWeapon.value.GetPercentageModifier();
             }
         }
     }

@@ -24,7 +24,6 @@ namespace RPG.Control
 
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
-            print("nothing to do");
         }
 
 

@@ -12,13 +12,13 @@ namespace RPG.Combat
 
         private void Awake()
         {
-            
+            expDisplayText.text = GameObject.FindWithTag("Player").GetComponent<Experience>().CheckExp().ToString();
         }
 
 
         private void Update()
         {
-            expDisplayText.text = GameObject.FindWithTag("Player").GetComponent<Experience>().CheckExp().ToString();
+            
         }
     }
 

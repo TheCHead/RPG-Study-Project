@@ -1,4 +1,5 @@
-﻿using RPG.Combat;
+﻿using GameDevTV.Utils;
+using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Resources;
@@ -15,7 +16,7 @@ namespace RPG.Control
         GameObject player;
         Health health;
 
-        Vector3 guardPosition;
+        LazyValue<Vector3> guardPosition;
 
         [SerializeField] float suspicionTime = 5f;
         float timeSinceLastSawPlayer = Mathf.Infinity;
@@ -32,14 +33,24 @@ namespace RPG.Control
         [SerializeField] float stopChaseDistance = 20f;
 
         bool isTriggered = false;
-        
 
-        private void Start()
+
+        private void Awake()
         {
             player = GameObject.FindWithTag("Player");
             health = GetComponent<Health>();
-            guardPosition = transform.position;
 
+            guardPosition = new LazyValue<Vector3>(GetGuardPosition);
+        }
+
+        private void Start()
+        {
+            guardPosition.ForceInit();
+        }
+
+        private Vector3 GetGuardPosition()
+        {
+            return transform.position;
         }
 
         private void Update()
@@ -134,7 +145,7 @@ namespace RPG.Control
 
         private void GuardBehaviour()
         {
-            GetComponent<Mover>().StartMoveAction(guardPosition, patrolSpeedModifier);
+            GetComponent<Mover>().StartMoveAction(guardPosition.value, patrolSpeedModifier);
         }
 
         private void SuspicionBehaviour()

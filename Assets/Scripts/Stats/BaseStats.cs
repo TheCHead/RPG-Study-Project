@@ -1,4 +1,5 @@
-﻿using RPG.Resources;
+﻿using GameDevTV.Utils;
+using RPG.Resources;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,29 +16,47 @@ namespace RPG.Stats
         [SerializeField] GameObject levelUpFX = null;
         [SerializeField] bool shouldUseModifiers = false;
         public event Action onLevelup;
+        Experience experience;
 
-        int currentLevel = 0;
+        LazyValue<int> currentLevel;
+
+        private void Awake()
+        {
+            experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(CalculateLevel);
+        }
 
         private void Start()
         {
-            currentLevel = CalculateLevel();
-            Experience experience = GetComponent<Experience>();
+            currentLevel.ForceInit();
+        }
+
+        private void OnEnable()
+        {
             if (experience != null)
             {
                 experience.onExperiencedGained += UpdateLevel;
             }
         }
 
+        private void OnDisable()
+        {
+            if (experience != null)
+            {
+                experience.onExperiencedGained -= UpdateLevel;
+            }
+        }
+
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > currentLevel && newLevel > startingLevel)
+            if (newLevel > currentLevel.value && newLevel > startingLevel)
             {
-                currentLevel = newLevel;
+                currentLevel.value = newLevel;
                 Instantiate(levelUpFX, this.transform);               
                 onLevelup();
             }
-            currentLevel = newLevel;
+            currentLevel.value = newLevel;
         }
 
 
@@ -68,11 +87,7 @@ namespace RPG.Stats
 
         public int GetLevel()
         {
-            if (currentLevel < 1)
-            {
-                currentLevel = CalculateLevel();
-            }
-            return currentLevel;
+            return currentLevel.value;
         }
 
         private float GetAdditiveModifier(Stats stat)
