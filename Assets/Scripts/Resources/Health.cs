@@ -12,12 +12,20 @@ namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] UnityEvent takeDamage;
+        [SerializeField] TakeDamageEvent takeDamage;
 
         LazyValue<float> currentHealth;
         float maxHealth = 0f;
         public bool isDead = false;
         GameObject instigator = null;
+
+        [System.Serializable]
+        public class TakeDamageEvent : UnityEvent<float>
+        {
+
+        }
+
+
 
         private void Awake()
         {          
@@ -70,7 +78,7 @@ namespace RPG.Resources
         {
             print(gameObject.name + " took damage: " + damage);
 
-            takeDamage.Invoke();
+            takeDamage.Invoke(damage);
             this.instigator = instigator;
 
             currentHealth.value = Mathf.Max(currentHealth.value - damage, 0);

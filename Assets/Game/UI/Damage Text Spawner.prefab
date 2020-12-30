@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01894ef7351f52a4493fe8557719b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageText: {fileID: 3759532243497002834, guid: 63056f13fca7cf641adbab00d5a160fc,
+  damageText: {fileID: 828267412196636543, guid: f30fe5b9fb8c8f141997d2a09b63da92,
     type: 3}
