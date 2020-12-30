@@ -6,11 +6,14 @@ using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using GameDevTV.Utils;
+using UnityEngine.Events;
 
 namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
+        [SerializeField] UnityEvent takeDamage;
+
         LazyValue<float> currentHealth;
         float maxHealth = 0f;
         public bool isDead = false;
@@ -67,6 +70,7 @@ namespace RPG.Resources
         {
             print(gameObject.name + " took damage: " + damage);
 
+            takeDamage.Invoke();
             this.instigator = instigator;
 
             currentHealth.value = Mathf.Max(currentHealth.value - damage, 0);

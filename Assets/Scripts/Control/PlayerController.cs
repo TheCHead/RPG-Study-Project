@@ -4,6 +4,7 @@ using RPG.Combat;
 using RPG.Resources;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 namespace RPG.Control
 {
@@ -23,8 +24,10 @@ namespace RPG.Control
         [Range(0, 1)]
         [SerializeField] float speedModifier = 1f;
         [SerializeField] CursorMapping[] cursorMappings = null;
+        [SerializeField] float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] float maxNavPathLenght = 10f;
 
-        
+
         // Start is called before the first frame update
         void Start()
         {
@@ -48,7 +51,6 @@ namespace RPG.Control
 
             if (InteractWithComponent()) return;
 
-            //if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
             SetCursor(CursorType.None);
         }
@@ -93,54 +95,62 @@ namespace RPG.Control
         {
             return EventSystem.current.IsPointerOverGameObject();
         }
-
-        //private bool InteractWithCombat()
-        //{
-        //        RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
-
-        //        foreach (RaycastHit hit in hits)
-        //        {
-                    
-        //            CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-        //            if (target == null) { continue; }
-
-        //            GameObject targetGameObject = target.gameObject;
-
-        //            if (GetComponent<Fighter>().CanAttack(targetGameObject))
-        //            {
-        //                if (Input.GetMouseButton(0))
-        //                {
-        //                    GetComponent<Fighter>().Attack(targetGameObject);
-        //                }
-        //                SetCursor(CursorType.Combat);
-        //                return true;
-        //            }
-
-        //            else
-        //            {
-        //                continue;
-        //            }
-        //        }
-        //    return false;
-        //}
-
-        
+      
 
         private bool InteractWithMovement()
         {
-            RaycastHit hit;
-            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+            //RaycastHit hit;
+            //bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+            Vector3 target;
+            bool hasHit = RaycastNavmesh(out target);
 
             if (hasHit)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point, speedModifier);
+                    GetComponent<Mover>().StartMoveAction(target, speedModifier);
                 }
                 SetCursor(CursorType.Movement);
                 return true;
             }
             return false;
+        }
+
+        private bool RaycastNavmesh(out Vector3 target)
+        {
+            target = new Vector3();
+
+            // Raycast to terrain
+            RaycastHit hit;
+            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+
+            if (!hasHit) return false;
+            // Find nearest navmesh point
+            NavMeshHit navMeshHit;
+            bool hasHitNavMesh = NavMesh.SamplePosition(hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            if (!hasHitNavMesh) return false;
+
+            target = navMeshHit.position;
+            // Check if path is not too long
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+            if (!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;
+            if (GetPathLenght(path) > maxNavPathLenght) return false;
+
+            return true;
+        }
+
+        private float GetPathLenght(NavMeshPath path)
+        {
+            float pathDistance = 0f;
+            Vector3[] corners = path.corners;
+            pathDistance = Vector3.Distance(transform.position, corners[0]);
+            for (int i = 1; i < corners.Length; i++)
+            {
+                pathDistance += Vector3.Distance(corners[i], corners[i - 1]);
+            }
+            return pathDistance;
         }
 
         private void SetCursor(CursorType combat)
