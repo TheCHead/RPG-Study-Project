@@ -12,6 +12,11 @@ namespace RPG.Combat
 
     public class CombatTarget : MonoBehaviour, IRaycastable
     {
+        public CursorType GetCursorType()
+        {
+            return CursorType.Combat;
+        }
+
         public bool HandleRaycast(PlayerController controller)
         {
             if (!controller.GetComponent<Fighter>().CanAttack(this.gameObject))

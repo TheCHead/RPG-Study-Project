@@ -9,13 +9,7 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
-        enum CursorType
-        {
-            None,
-            Movement,
-            Combat,
-            UI
-        }
+        
 
         [System.Serializable]
         struct CursorMapping
@@ -61,7 +55,7 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = RaycastAllSorted();
 
             foreach (RaycastHit hit in hits)
             {
@@ -70,7 +64,7 @@ namespace RPG.Control
                 {
                     if (raycastable.HandleRaycast(this))
                     {
-                        SetCursor(CursorType.Combat);
+                        SetCursor(raycastable.GetCursorType());
                         return true;
                     }
                 }
@@ -78,40 +72,57 @@ namespace RPG.Control
             return false;
         }
 
+        private RaycastHit[] RaycastAllSorted()
+        {
+            //Get all hits
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            //Sort by distance
+            //-build array of distances
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < distances.Length; i++)
+            {
+                distances[i] = hits[0].distance;
+            }
+            //-sort hits
+            Array.Sort(distances, hits);
+            //return
+            return hits;
+        }
+
         private bool InteractWithUI()
         {
             return EventSystem.current.IsPointerOverGameObject();
         }
 
-        private bool InteractWithCombat()
-        {
-                RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+        //private bool InteractWithCombat()
+        //{
+        //        RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
 
-                foreach (RaycastHit hit in hits)
-                {
+        //        foreach (RaycastHit hit in hits)
+        //        {
                     
-                    CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                    if (target == null) { continue; }
+        //            CombatTarget target = hit.transform.GetComponent<CombatTarget>();
+        //            if (target == null) { continue; }
 
-                    GameObject targetGameObject = target.gameObject;
+        //            GameObject targetGameObject = target.gameObject;
 
-                    if (GetComponent<Fighter>().CanAttack(targetGameObject))
-                    {
-                        if (Input.GetMouseButton(0))
-                        {
-                            GetComponent<Fighter>().Attack(targetGameObject);
-                        }
-                        SetCursor(CursorType.Combat);
-                        return true;
-                    }
+        //            if (GetComponent<Fighter>().CanAttack(targetGameObject))
+        //            {
+        //                if (Input.GetMouseButton(0))
+        //                {
+        //                    GetComponent<Fighter>().Attack(targetGameObject);
+        //                }
+        //                SetCursor(CursorType.Combat);
+        //                return true;
+        //            }
 
-                    else
-                    {
-                        continue;
-                    }
-                }
-            return false;
-        }
+        //            else
+        //            {
+        //                continue;
+        //            }
+        //        }
+        //    return false;
+        //}
 
         
 
