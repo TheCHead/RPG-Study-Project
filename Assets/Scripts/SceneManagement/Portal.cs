@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using RPG.Control;
 
 namespace RPG.SceneManagement
 {
@@ -31,6 +32,8 @@ namespace RPG.SceneManagement
         private IEnumerator Transition()
         {
             DontDestroyOnLoad(gameObject);
+
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
             //fade out
             Fader fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut();
@@ -40,6 +43,7 @@ namespace RPG.SceneManagement
 
             //load new scene and spawn player
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
 
             //load current level
             FindObjectOfType<SavingWrapper>().Load();
@@ -52,7 +56,8 @@ namespace RPG.SceneManagement
 
 
             // fade in
-            yield return fader.FadeIn();
+            fader.FadeIn();
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = true;
 
             Destroy(gameObject);
         }

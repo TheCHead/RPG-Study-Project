@@ -18,7 +18,7 @@ namespace RPG.SceneManagement
             canvasGroup.alpha = 1;
         }
 
-        public IEnumerator FadeOut()
+        public Coroutine FadeOut()
         {
             // Cancel running coroutines
             if (activeFade != null)
@@ -27,7 +27,7 @@ namespace RPG.SceneManagement
             }
             // Fade out
             activeFade = StartCoroutine(FadeOutRoutine());
-            yield return activeFade;
+            return activeFade;
         }
         
         private IEnumerator FadeOutRoutine()
@@ -40,7 +40,7 @@ namespace RPG.SceneManagement
             }
         }
 
-        public IEnumerator FadeIn()
+        public Coroutine FadeIn()
         {
             // Cancel running coroutines
             if (activeFade != null)
@@ -49,7 +49,7 @@ namespace RPG.SceneManagement
             }
             // Fade out
             activeFade = StartCoroutine(FadeinRoutine());
-            yield return activeFade;
+            return activeFade;
 
         }
 
