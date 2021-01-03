@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Bow
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 22100000, guid: f781563161a3ec24793d418fa248221d, type: 2}
-  weaponPrefab: {fileID: 5975424541777432409, guid: 7f5422af23bdb564c93152556438d74b,
+  weaponPrefab: {fileID: 3115382441973553897, guid: 7f5422af23bdb564c93152556438d74b,
     type: 3}
   weaponDamage: 5
-  baseDamagePercentageModifier: 5
+  damagePercentageModifier: 10
   weaponRange: 15
   weaponType: 1
   projectile: {fileID: 2656364528477297822, guid: 36a00542541a4174984e9cde407d979c,

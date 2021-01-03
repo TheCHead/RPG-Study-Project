@@ -24,12 +24,12 @@ namespace RPG.Combat
         [Range(0,1)]
         [SerializeField] float chaseSpeedModifier = 0.6f;
 
-        [SerializeField] Weapon defaultWeapon = null;
-        LazyValue<Weapon> currentWeapon;
+        [SerializeField] WeaponConfig defaultWeapon = null;
+        LazyValue<WeaponConfig> currentWeapon;
 
         private void Awake()
         {
-            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+            currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
         }
 
         private void Start()
@@ -37,27 +37,27 @@ namespace RPG.Combat
             currentWeapon.ForceInit();
         }
 
-        private Weapon SetupDefaultWeapon()
+        private WeaponConfig SetupDefaultWeapon()
         {
             AttachWeapon(defaultWeapon);
             return defaultWeapon;
         }
 
 
-        public void EquipWeapon(Weapon weapon)
+        public void EquipWeapon(WeaponConfig weapon)
         {
             currentWeapon.value = weapon;
             AttachWeapon(weapon);
         }
 
-        private void AttachWeapon(Weapon weapon)
+        private void AttachWeapon(WeaponConfig weapon)
         {
             Animator animator = GetComponent<Animator>();
             weapon.Spawn(rightHandTransform, leftHandTransform, animator);
             GetWeaponStats(weapon);
         }
 
-        private void GetWeaponStats(Weapon weapon)
+        private void GetWeaponStats(WeaponConfig weapon)
         {
             baseDamage = weapon.GetWeaponDamage();
             baseRange = weapon.GetWeaponRange();
@@ -171,7 +171,7 @@ namespace RPG.Combat
         public void RestoreState(object state)
         {
             string weaponName = (string)state;
-            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }
 
