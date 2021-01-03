@@ -1,6 +1,7 @@
 ﻿using RPG.Control;
 using RPG.Attributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat
 {
@@ -14,6 +15,8 @@ namespace RPG.Combat
         [SerializeField] float projectileLifetime = 8f;
         [SerializeField] bool isHoming = false;
         [SerializeField] GameObject hitEffect = null;
+
+        [SerializeField] UnityEvent onHit;
 
         GameObject myInstigator = null;
 
@@ -58,6 +61,8 @@ namespace RPG.Combat
             {
                 if (other.GetComponent<Health>().IsDead()) return;
 
+
+                onHit.Invoke();
                 other.gameObject.GetComponent<Health>().TakeDamage(myInstigator, damage);
 
                 if (other.GetComponent<AIController>() != null)
