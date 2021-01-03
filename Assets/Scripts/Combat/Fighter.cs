@@ -25,11 +25,13 @@ namespace RPG.Combat
         [SerializeField] float chaseSpeedModifier = 0.6f;
 
         [SerializeField] WeaponConfig defaultWeapon = null;
-        LazyValue<WeaponConfig> currentWeapon;
+        WeaponConfig currentWeaponConfig;
+        LazyValue<Weapon> currentWeapon = null;
 
         private void Awake()
         {
-            currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
+            currentWeaponConfig = defaultWeapon;
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
         }
 
         private void Start()
@@ -37,24 +39,24 @@ namespace RPG.Combat
             currentWeapon.ForceInit();
         }
 
-        private WeaponConfig SetupDefaultWeapon()
+        private Weapon SetupDefaultWeapon()
         {
-            AttachWeapon(defaultWeapon);
-            return defaultWeapon;
+            return AttachWeapon(defaultWeapon);
         }
 
 
         public void EquipWeapon(WeaponConfig weapon)
         {
-            currentWeapon.value = weapon;
-            AttachWeapon(weapon);
+            currentWeaponConfig = weapon;
+            currentWeapon.value = AttachWeapon(weapon);
         }
 
-        private void AttachWeapon(WeaponConfig weapon)
+        private Weapon AttachWeapon(WeaponConfig weapon)
         {
-            Animator animator = GetComponent<Animator>();
-            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            Animator animator = GetComponent<Animator>();            
             GetWeaponStats(weapon);
+            return weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+
         }
 
         private void GetWeaponStats(WeaponConfig weapon)
@@ -153,19 +155,31 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
+
+            RunWeaponOnHit();
+
             target.GetComponent<Health>().TakeDamage(gameObject, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
+        }
+
+        private void RunWeaponOnHit()
+        {
+            if (currentWeapon.value != null)
+            {
+                currentWeapon.value.OnHit();
+            }
         }
 
 
         // Animation Event
         void Shoot()
         {
-            currentWeapon.value.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
+            currentWeaponConfig.LaunchProjectile(gameObject, target, rightHandTransform, leftHandTransform, GetComponent<BaseStats>().GetStat(Stats.Stats.Damage));
+            RunWeaponOnHit();
         }
 
         public object CaptureState()
         {
-            return currentWeapon.value.name;
+            return currentWeaponConfig.name;
         }
 
         public void RestoreState(object state)
@@ -179,7 +193,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.value.GetWeaponDamage();
+                yield return currentWeaponConfig.GetWeaponDamage();
             }
         }
 
@@ -187,7 +201,7 @@ namespace RPG.Combat
         {
             if (stat == Stats.Stats.Damage)
             {
-                yield return currentWeapon.value.GetPercentageModifier();
+                yield return currentWeaponConfig.GetPercentageModifier();
             }
         }
     }
