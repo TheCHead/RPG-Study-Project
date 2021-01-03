@@ -143,6 +143,11 @@ namespace RPG.Attributes
 
         }
 
+        public void Heal(float healthAmount)
+        {
+            currentHealth.value = Mathf.Min(currentHealth.value + healthAmount, GetMaxHealth());
+        }
+
         [System.Serializable]
         struct HealthSaveData
         {

@@ -175,6 +175,11 @@ namespace RPG.Control
             }
             return cursorMappings[0];
         }
+
+        public float GetSpeedModifier()
+        {
+            return speedModifier;
+        }
     }
 }
 
