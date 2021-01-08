@@ -34,6 +34,8 @@ namespace RPG.Control
 
         bool isTriggered = false;
 
+        [SerializeField] float shoutDistance = 5f;
+
 
         private void Awake()
         {
@@ -101,6 +103,20 @@ namespace RPG.Control
         {
             InteractWithCombat();
             timeSinceLastSawPlayer = 0f;
+
+            AggroNearbyEnemies();
+        }
+
+        private void AggroNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.transform.GetComponent<AIController>())
+                {
+                    hit.transform.GetComponent<AIController>().SetTriggered();
+                }
+            }          
         }
 
         private void UpdateTimers()

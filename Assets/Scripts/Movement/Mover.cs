@@ -15,6 +15,7 @@ namespace RPG.Movement
         NavMeshAgent myNavMeshAvent;
         Health health;
         [SerializeField] float maxSpeed = 5f;
+        [SerializeField] float maxNavPathLenght = 40f;
 
         private void Awake()
         {
@@ -37,6 +38,29 @@ namespace RPG.Movement
         {
             GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination, speedModifier);
+        }
+
+        public bool CanMoveTo(Vector3 destination)
+        {
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path);
+            if (!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;
+            if (GetPathLenght(path) > maxNavPathLenght) return false;
+
+            return true;
+        }
+
+        private float GetPathLenght(NavMeshPath path)
+        {
+            float pathDistance = 0f;
+            Vector3[] corners = path.corners;
+            pathDistance = Vector3.Distance(transform.position, corners[0]);
+            for (int i = 1; i < corners.Length; i++)
+            {
+                pathDistance += Vector3.Distance(corners[i], corners[i - 1]);
+            }
+            return pathDistance;
         }
 
         public void MoveTo(Vector3 destination, float speedModifier)

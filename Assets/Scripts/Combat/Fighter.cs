@@ -80,7 +80,7 @@ namespace RPG.Combat
                 else
                 {
                     GetComponent<Mover>().MoveTo(target.transform.position, chaseSpeedModifier);
-                    if (Vector3.Distance(transform.position, target.transform.position) <= baseRange)
+                    if (IsInRange(target.transform))
                     {
                         GetComponent<Mover>().StopMoving();
                         // Attack target
@@ -95,8 +95,19 @@ namespace RPG.Combat
             }
         }
 
+        private bool IsInRange(Transform target)
+        {
+            if (Vector3.Distance(transform.position, target.position) <= baseRange) return true;
+
+            return false;
+        }
+
         public bool CanAttack(GameObject target)
         {
+            if (target == null) return false;
+
+            if (!GetComponent<Mover>().CanMoveTo(target.transform.position) && !IsInRange(target.transform)) return false;
+
             if (target != null && !target.GetComponent<Health>().IsDead())
             {
                 return true;
@@ -134,6 +145,7 @@ namespace RPG.Combat
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.gameObject;
+
         }
 
         private void DropTarget()

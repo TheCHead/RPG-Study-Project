@@ -45,6 +45,7 @@ MonoBehaviour:
   waypointDwellTime: 2
   patrolSpeedModifier: 0.4
   stopChaseDistance: 20
+  shoutDistance: 10
 --- !u!1001 &515036887751179979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,7 +233,7 @@ PrefabInstance:
     - target: {fileID: 4733094733967858217, guid: aeb93603b689ef34886bce235a66539c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeb93603b689ef34886bce235a66539c, type: 3}
