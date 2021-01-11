@@ -29,7 +29,7 @@ namespace RPG.Combat
             enemyHealthDisplayText.text = "N/A";
             if (fighter.GetTarget() == null) return;
 
-            enemyHealthDisplayText.text = fighter.GetTarget().GetCurrentHealth().ToString();
+            enemyHealthDisplayText.text = fighter.GetTarget().GetCurrentHealth().ToString("000.0");
         }
     }
 }

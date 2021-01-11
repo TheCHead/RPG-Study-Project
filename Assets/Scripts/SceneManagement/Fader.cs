@@ -50,7 +50,6 @@ namespace RPG.SceneManagement
             // Fade out
             activeFade = StartCoroutine(FadeinRoutine());
             return activeFade;
-
         }
 
         private IEnumerator FadeinRoutine()
@@ -64,10 +63,6 @@ namespace RPG.SceneManagement
         }
 
 
-        private void Start()
-        {
-            
-        }
 
         private void Awake()
         {

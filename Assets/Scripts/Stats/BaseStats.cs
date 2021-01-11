@@ -17,6 +17,7 @@ namespace RPG.Stats
         [SerializeField] bool shouldUseModifiers = false;
         public event Action onLevelup;
         Experience experience;
+        [SerializeField] AudioClip lvlUpSound = null;
 
         LazyValue<int> currentLevel;
 
@@ -53,7 +54,8 @@ namespace RPG.Stats
             if (newLevel > currentLevel.value && newLevel > startingLevel)
             {
                 currentLevel.value = newLevel;
-                Instantiate(levelUpFX, this.transform);               
+                Instantiate(levelUpFX, this.transform);
+                AudioSource.PlayClipAtPoint(lvlUpSound, transform.position);
                 onLevelup();
             }
             currentLevel.value = newLevel;

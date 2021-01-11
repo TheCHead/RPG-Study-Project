@@ -10,12 +10,14 @@ namespace RPG.Combat
     public class HealthPickup : MonoBehaviour, IRaycastable
     {
         [SerializeField] float healthRestore = 0;
+        [SerializeField] AudioClip soundFX = null;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
             {
                 other.gameObject.GetComponent<Health>().Heal(healthRestore);
+                AudioSource.PlayClipAtPoint(soundFX, transform.position);
                 Destroy(gameObject);
             }
         }

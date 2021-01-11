@@ -1,5 +1,6 @@
 ﻿using RPG.Combat;
 using RPG.Control;
+using RPG.Movement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,13 @@ namespace RPG.Combat
     {
         [SerializeField] WeaponConfig weaponPickup;
         [SerializeField] float respawnTime = 5f;
-
+        [SerializeField] AudioClip soundFX = null;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
             {
+                AudioSource.PlayClipAtPoint(soundFX, transform.position);
                 Pickup(other.GetComponent<Fighter>());
             }
         }
@@ -58,7 +60,8 @@ namespace RPG.Combat
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Pickup(controller.GetComponent<Fighter>());
+                controller.GetComponent<Mover>().MoveTo(transform.position, controller.GetSpeedModifier());
+                //Pickup(controller.GetComponent<Fighter>());
             }
             return true;
         }

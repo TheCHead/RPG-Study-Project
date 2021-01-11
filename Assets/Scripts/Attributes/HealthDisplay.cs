@@ -1,4 +1,5 @@
 ﻿//using RPG.Combat;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace RPG.Attributes
         // Update is called once per frame
         void Update()
         {
-            healthDisplayText.text = health.GetCurrentHealth().ToString();
+            healthDisplayText.text = health.GetCurrentHealth().ToString("000.0");
 
             //enemyHealthDisplayText.text = "N/A";
             //Health targetHealth = health.GetComponent<Fighter>().GetTarget();

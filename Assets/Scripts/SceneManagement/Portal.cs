@@ -19,6 +19,7 @@ namespace RPG.SceneManagement
         [SerializeField] Transform spawnPoint;
         [SerializeField] DestinationIdentifier destination;
         [SerializeField] DestinationIdentifier targetDestination;
+        [SerializeField] float fadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -37,13 +38,26 @@ namespace RPG.SceneManagement
             //fade out
             Fader fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut();
+            print("faded out");
 
             //save current level
             FindObjectOfType<SavingWrapper>().Save();
+            print("saved");
 
             //load new scene and spawn player
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
+
+            //AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoad);
+
+            //while (!asyncLoad.isDone)
+            //{
+            //    yield return null;
+            //}
+
+            print("scene loaded");
+
             GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
+
 
             //load current level
             FindObjectOfType<SavingWrapper>().Load();
@@ -56,7 +70,10 @@ namespace RPG.SceneManagement
 
 
             // fade in
+            yield return new WaitForSeconds(fadeWaitTime);
             fader.FadeIn();
+
+
             GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = true;
 
             Destroy(gameObject);

@@ -15,7 +15,7 @@ namespace RPG.Attributes
         [SerializeField] TakeDamageEvent takeDamage;
        
         LazyValue<float> currentHealth;
-        float maxHealth = 0f;
+        float maxHealth = 100f;
         public bool isDead = false;
         GameObject instigator = null;
 
@@ -33,6 +33,7 @@ namespace RPG.Attributes
         {          
             currentHealth = new LazyValue<float>(GetInitialHealth);
         }
+
 
         
 
@@ -57,6 +58,11 @@ namespace RPG.Attributes
         {
             maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
             currentHealth.ForceInit();
+
+            if (isDead)
+            {
+                GetComponent<Animator>().SetTrigger("instantDie");
+            }
 
             //if (currentHealth < 0)
             //{               
